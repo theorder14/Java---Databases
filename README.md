@@ -1,22 +1,23 @@
-# MusicDBProject
-AUTHORS: Didrik Lind & Thai Pham
+# MusicDBProject<br>
+AUTHORS: Didrik Lind & Thai Pham<br>
 
-PROJECT:
-Java, JDBC, MySQL
-
+PROJECT:<br>
+Java, JDBC, MySQL<br>
+<br>
 *******Task*******
-
+<br>
+<br>
 **Method**
-*pair-programming [ok]
-*use git/GitHub [ok]
+*pair-programming [ok] <br>
+*use git/GitHub [ok] <br>
 
-**Application Requirements**
-*Design database and implement in MySQL [ok]
-*Draw ER-diagram [ok]
-*Atleast three tabels [ok]
-*fulfill normalforms [ok]
-*atleast two foreign keys [ok]
-<-:(GUI):->
-*fulfill CRUD
-*have some sort of selection functionality
+**Application Requirements**<br>
+*Design database and implement in MySQL [ok] <br>
+*Draw ER-diagram [ok] <br>
+*Atleast three tabels [ok] <br>
+*fulfill normalforms [ok] <br>
+*atleast two foreign keys [ok] <br>
+<-:(GUI):-> <br>
+*fulfill CRUD <br>
+*have some sort of selection functionality <br>
 *have some sort of search functionality
