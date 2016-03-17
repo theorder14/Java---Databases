@@ -29,6 +29,7 @@ public class MyController implements ActionListener {
 		view.addRadioButtonListener(new RadioButtonListener());
 		view.addTableMouseListener(new TableMouseListener());
 		view.addCRUDButtonsListener(new CRUDButtonsListener());
+		view.addSearchButtonListener(new SearchButtonListener());
 		
 		this.topModel = topModel;
 	}
@@ -37,8 +38,7 @@ public class MyController implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		//TODO
 	}
 	
 	private class RadioButtonListener implements ActionListener {
@@ -66,6 +66,7 @@ public class MyController implements ActionListener {
 		}
 		
 	}
+	//TODO 
 	private class TableMouseListener extends MouseAdapter {
 		
 		
@@ -140,7 +141,7 @@ public class MyController implements ActionListener {
 			}	
 		}
 	}
-	//****fix: shorter code!******
+	//TODO ****fix: shorter code!******
 	private class CRUDButtonsListener implements ActionListener {
 
 		@Override
@@ -297,5 +298,24 @@ public class MyController implements ActionListener {
 		
 	}
 	
-	
+	//TODO ***fix: its very similar to RadioButtonListener class, repeated code can be done better! :)
+	private class SearchButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent aevt) {
+			JRadioButton rObj = view.getSelectedRb();
+			String searchStr = view.getSearchField().getText();
+			if(rObj.getText().equals("Albums")) {
+				view.getMainTable().setModel(topModel.getTableData(Table.ALBUM, searchStr));
+			}else if(rObj.getText().equals("Artists")) {
+				view.getMainTable().setModel(topModel.getTableData(Table.ARTIST, searchStr));
+			}else if(rObj.getText().equals("Tracks")) {
+				view.getMainTable().setModel(topModel.getTableData(Table.TRACK, searchStr));
+			}else {
+				view.getMainTable().setModel(topModel.getTableData(Table.GENRE, searchStr));
+			}
+			view.getMainTable().addMouseListener(new TableMouseListener());
+		}
+		
+	}
 }

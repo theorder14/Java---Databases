@@ -36,6 +36,9 @@ public class MyMainView extends JPanel {
 	private JTable mainTable;
 	private JScrollPane mainScrollPane;
 	
+	private MyCustomButton searchB;
+	private MyCustomTxtField searchField;
+	
 	//private DefaultTableModel[] dm;
 	
 	
@@ -92,7 +95,7 @@ public class MyMainView extends JPanel {
 	}
 
 	private void makeSouthPanel() {
-		sPanel = new JPanel(new GridLayout(1,4));
+		sPanel = new JPanel(new GridLayout(3,2));
 		
 		rbs = new JRadioButton[4];
 		
@@ -106,6 +109,12 @@ public class MyMainView extends JPanel {
 			btnGrp.add(rbs[i]);
 			sPanel.add(rbs[i]);
 		}	
+		
+		searchB = new MyCustomButton("Search by name");
+		searchField = new MyCustomTxtField("");
+		sPanel.add(searchB);
+		sPanel.add(searchField);
+		
 		add(sPanel, BorderLayout.SOUTH);
 	}
 	
@@ -237,6 +246,9 @@ public class MyMainView extends JPanel {
 			crudBtns[i].addActionListener(actionListen);
 	}
 	
+	public void addSearchButtonListener(ActionListener actionListen) {
+		searchB.addActionListener(actionListen);
+	}
 	public JTable getMainTable() {
 		return mainTable;
 	}
@@ -277,6 +289,13 @@ public class MyMainView extends JPanel {
 	}
 	public JTextField[] getTxtFieldsGen() {
 		return txtFieldsGen;
+	}
+	
+	public JTextField getSearchField() {
+		return searchField;
+	}
+	public JButton getSearchButton() {
+		return searchB;
 	}
 	
 	private class MyCustomTxtField extends JTextField {
