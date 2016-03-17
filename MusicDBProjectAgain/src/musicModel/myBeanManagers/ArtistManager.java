@@ -210,7 +210,7 @@ public class ArtistManager {
 	}
 
 	public static String[] getColonTitles() {
-		String sql = "SELECT * FROM album";
+		String sql = "SELECT * FROM artist";
 		String[] colonTitles = null;
 		Statement stmt = null;
 		ResultSet rs = null;

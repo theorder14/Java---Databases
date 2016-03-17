@@ -104,4 +104,59 @@ public class MyTopModel {
 			dm.addColumn(colonTitles[i]);
 	}
 	
+	
+	public boolean addData(Table table, String[] addStuff) {
+		
+		switch(table) {
+			case ALBUM:
+				return AlbumManager.addAlbum(new Album(addStuff[1],Integer.parseInt(addStuff[2]))); 
+			case ARTIST:
+				return ArtistManager.addArtist(new Artist(addStuff[1], addStuff[2]));
+			case TRACK:
+				return TrackManager.addTrack(new Track(addStuff[1], Integer.parseInt(addStuff[2]),
+						Integer.parseInt(addStuff[3]), Integer.parseInt(addStuff[4]),
+						Integer.parseInt(addStuff[5]), Integer.parseInt(addStuff[4])));
+			case GENRE:
+				return GenreManager.addGenre(new Genre(addStuff[1]));
+			default:
+				System.out.println("No data added");
+				return false;
+		}
+	}
+
+	public boolean updateData(Table table, String[] updateStuff) {
+		switch(table) {
+		case ALBUM:
+			return AlbumManager.updateAlbum(new Album(Integer.parseInt(updateStuff[0]), updateStuff[1],Integer.parseInt(updateStuff[2]))); 
+		case ARTIST:
+			return ArtistManager.updateArtist(new Artist(Integer.parseInt(updateStuff[0]), updateStuff[1], updateStuff[2]));
+		case TRACK:
+			return TrackManager.updateTrack(new Track(Integer.parseInt(updateStuff[0]), updateStuff[1], Integer.parseInt(updateStuff[2]),
+					Integer.parseInt(updateStuff[3]), Integer.parseInt(updateStuff[4]),
+					Integer.parseInt(updateStuff[5]), Integer.parseInt(updateStuff[4])));
+		case GENRE:
+			return GenreManager.updateGenre(new Genre(Integer.parseInt(updateStuff[0]),updateStuff[1]));
+		default:
+			System.out.println("No data updated");
+			return false;
+		}
+	}
+	
+	//******fix: change input l8r, deleteStuff could just aswell be just an integer (int)
+	public boolean deleteData(Table table, String[] deleteStuff) {
+		switch(table) {
+		case ALBUM:
+			return AlbumManager.deleteAlbum(Integer.parseInt(deleteStuff[0])); 
+		case ARTIST:
+			return ArtistManager.deleteArtist(Integer.parseInt(deleteStuff[0]));
+		case TRACK:
+			return TrackManager.deleteTrack(Integer.parseInt(deleteStuff[0]));
+		case GENRE:
+			return GenreManager.deleteGenre(Integer.parseInt(deleteStuff[0]));
+		default:
+			System.out.println("No data deleted");
+			return false;
+		}
+	}
+
 }

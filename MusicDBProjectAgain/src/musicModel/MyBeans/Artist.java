@@ -17,6 +17,18 @@ public class Artist implements Serializable {
 	
 	}
 	
+    public Artist(String artistName, String country) {
+    	this.artistName = artistName;
+    	this.country = country;
+    }
+    
+    //I have autoIncrement on pk, so I need to constructor above aswell.
+    public Artist(int pkArtistId, String artistName, String country) {
+    	this.pkArtistId = pkArtistId;
+    	this.artistName = artistName;
+    	this.country = country;
+    }
+	
 	//getters
 	public int getPkArtistId() {
 		return pkArtistId;

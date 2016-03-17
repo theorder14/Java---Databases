@@ -28,10 +28,10 @@ public class MyMainView extends JPanel {
 	private JPanel cPanel,nPanel, sPanel, ePanel, wPanel;
 	
 	private JPanel ePanelAlb, ePanelArt, ePanelTrk, ePanelGen;
-	private CustomTxtField[] txtFieldsAlb, txtFieldsArt, txtFieldsTrk, txtFieldsGen;
+	private MyCustomTxtField[] txtFieldsAlb, txtFieldsArt, txtFieldsTrk, txtFieldsGen;
 	private JLabel[] labelsAlb, labelsArt, labelsTrk, labelsGen;
 //	private JButton updateB, addB, deleteB, regenerateB;
-	private JButton[] crudBtns;
+	private MyCustomButton[] crudBtns;
 	private JRadioButton[] rbs;
 	private JTable mainTable;
 	private JScrollPane mainScrollPane;
@@ -55,33 +55,35 @@ public class MyMainView extends JPanel {
 	
 	private void makeCenterPanel() {
 		cPanel = new JPanel();	
+		JScrollPane cPanelScrollPane = new JScrollPane(cPanel);
+		
 		
 		String[] colonTitles = {"colon1", "colon2", "colon3", "colon4"};
 		Object[][] rowData = {
 			{"data1","data2","data3","data4"},
-			{"data1","data2","data3","data4"},
-			{"data1","data2","data3","data4"},
-			{"data1","data2","data3","data4"},
-			{"data1","data2","data3","data4"}
+			{"data5","data6","data7","data8"},
+			{"data9","data10","data11","data12"},
+			{"data13","data14","data15","data16"},
+			{"data17","data18","data19","data20"}
 		};
 		
 		mainTable = new JTable(rowData, colonTitles);
 		mainTable.setFillsViewportHeight(true);
 		mainScrollPane = new JScrollPane(mainTable);
-		
 		cPanel.add(mainScrollPane);
-		
-		add(cPanel, BorderLayout.CENTER);
+	
+//		add(cPanel, BorderLayout.CENTER);
+		add(cPanelScrollPane, BorderLayout.CENTER);
 	}
 	
 //	updateB, addB, deleteB, regenerateB;
 	private void makeNorthPanel() {
 		nPanel = new JPanel(); // new BoxLayout(nPanel,BoxLayout.X_AXIS)
-		crudBtns = new JButton[4];
-		crudBtns[0] = new JButton("ADD");
-		crudBtns[1] = new JButton("REGENERATE");
-		crudBtns[2] = new JButton("UPDATE");
-		crudBtns[3] = new JButton("DELETE");
+		crudBtns = new MyCustomButton[4];
+		crudBtns[0] = new MyCustomButton("ADD");
+		crudBtns[1] = new MyCustomButton("REGENERATE");
+		crudBtns[2] = new MyCustomButton("UPDATE");
+		crudBtns[3] = new MyCustomButton("DELETE");
 		
 		for(int i=0;i<crudBtns.length;i++)
 			nPanel.add(crudBtns[i]);
@@ -113,10 +115,10 @@ public class MyMainView extends JPanel {
 		
 		//album
 		ePanelAlb = new JPanel(new GridLayout(6,1));
-		txtFieldsAlb = new CustomTxtField[3];
-		txtFieldsAlb[0] = new CustomTxtField("pk_album_id");
-		txtFieldsAlb[1] = new CustomTxtField("album_name");
-		txtFieldsAlb[2] = new CustomTxtField("fk_artist_id");
+		txtFieldsAlb = new MyCustomTxtField[3];
+		txtFieldsAlb[0] = new MyCustomTxtField("pk_album_id");
+		txtFieldsAlb[1] = new MyCustomTxtField("album_name");
+		txtFieldsAlb[2] = new MyCustomTxtField("fk_artist_id");
 		
 		labelsAlb = new JLabel[3];
 		labelsAlb[0] = new JLabel("pk_album_id");
@@ -131,10 +133,10 @@ public class MyMainView extends JPanel {
 
 		//artist
 		ePanelArt = new JPanel(new GridLayout(6,1));
-		txtFieldsArt = new CustomTxtField[3];
-		txtFieldsArt[0] = new CustomTxtField("pk_artist_id");
-		txtFieldsArt[1] = new CustomTxtField("artist_name");
-		txtFieldsArt[2] = new CustomTxtField("country");
+		txtFieldsArt = new MyCustomTxtField[3];
+		txtFieldsArt[0] = new MyCustomTxtField("pk_artist_id");
+		txtFieldsArt[1] = new MyCustomTxtField("artist_name");
+		txtFieldsArt[2] = new MyCustomTxtField("country");
 		
 		labelsArt = new JLabel[3];
 		labelsArt[0] = new JLabel("pk_artist_id");
@@ -149,14 +151,14 @@ public class MyMainView extends JPanel {
 		
 		//track
 		ePanelTrk = new JPanel(new GridLayout(14,1));
-		txtFieldsTrk = new CustomTxtField[7];
-		txtFieldsTrk[0] = new CustomTxtField("pk_track_id");
-		txtFieldsTrk[1] = new CustomTxtField("track_name");
-		txtFieldsTrk[2] = new CustomTxtField("track_time");
-		txtFieldsTrk[3] = new CustomTxtField("fk_artist_id");
-		txtFieldsTrk[4] = new CustomTxtField("fk_album_id");
-		txtFieldsTrk[5] = new CustomTxtField("release_date");
-		txtFieldsTrk[6] = new CustomTxtField("fk_genre_id");
+		txtFieldsTrk = new MyCustomTxtField[7];
+		txtFieldsTrk[0] = new MyCustomTxtField("pk_track_id");
+		txtFieldsTrk[1] = new MyCustomTxtField("track_name");
+		txtFieldsTrk[2] = new MyCustomTxtField("track_time");
+		txtFieldsTrk[3] = new MyCustomTxtField("fk_artist_id");
+		txtFieldsTrk[4] = new MyCustomTxtField("fk_album_id");
+		txtFieldsTrk[5] = new MyCustomTxtField("release_date");
+		txtFieldsTrk[6] = new MyCustomTxtField("fk_genre_id");
 		
 		labelsTrk = new JLabel[7];
 		labelsTrk[0] = new JLabel("pk_track_id");
@@ -175,9 +177,9 @@ public class MyMainView extends JPanel {
 		
 		//genre
 		ePanelGen = new JPanel(new GridLayout(4,1));
-		txtFieldsGen = new CustomTxtField[2];
-		txtFieldsGen[0] = new CustomTxtField("pk_genre_id");
-		txtFieldsGen[1] = new CustomTxtField("genre_name");
+		txtFieldsGen = new MyCustomTxtField[2];
+		txtFieldsGen[0] = new MyCustomTxtField("pk_genre_id");
+		txtFieldsGen[1] = new MyCustomTxtField("genre_name");
 		
 		labelsGen = new JLabel[2];
 		labelsGen[0] = new JLabel("pk_genre_id");
@@ -230,6 +232,11 @@ public class MyMainView extends JPanel {
 
 	}
 	
+	public void addCRUDButtonsListener(ActionListener actionListen) {
+		for(int i=0; i<crudBtns.length;i++)
+			crudBtns[i].addActionListener(actionListen);
+	}
+	
 	public JTable getMainTable() {
 		return mainTable;
 	}
@@ -272,16 +279,26 @@ public class MyMainView extends JPanel {
 		return txtFieldsGen;
 	}
 	
-	private class CustomTxtField extends JTextField {
-
-		private final int WIDTH = 150;
-//		private final int HEIGHT = 50;
+	private class MyCustomTxtField extends JTextField {
+		private final int CSTM_WIDTH = 150;
+		private final int CSTM_HEIGHT = 25;
 		
-		public CustomTxtField(String string) {
+		public MyCustomTxtField(String string) {
 			super(string);
-			setPreferredSize(new Dimension(WIDTH,HEIGHT));
+			setPreferredSize(new Dimension(CSTM_WIDTH,CSTM_HEIGHT));
 		}
 		
+	}
+	
+	private class MyCustomButton extends JButton {
+		private final int CSTM_WIDTH = 150;
+		private final int CSTM_HEIGHT = 50;
+		
+		public MyCustomButton(String string) {
+			super(string);
+			setPreferredSize(new Dimension(CSTM_WIDTH,CSTM_HEIGHT));
+		}
+
 	}
 	
 

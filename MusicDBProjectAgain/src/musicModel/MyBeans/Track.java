@@ -18,6 +18,25 @@ public class Track implements Serializable{
 	public Track() {
 		
 	}
+    public Track(String trackName, int trackTime, int fkArtistId, int fkAlbumId, int releaseDate, int fkGenreId ) {
+    	this.trackName = trackName;
+    	this.trackTime = trackTime;
+    	this.fkArtistId = fkArtistId;
+    	this.fkAlbumId = fkAlbumId;
+    	this.releaseDate = releaseDate;
+    	this.fkGenreId = fkGenreId;
+    }
+    
+    //I have autoIncrement on pk, so I need to constructor above aswell.
+    public Track(int pkTrackId, String trackName, int trackTime, int fkArtistId, int fkAlbumId, int releaseDate, int fkGenreId ) {
+    	this.pkTrackId = pkTrackId;
+    	this.trackName = trackName;
+    	this.trackTime = trackTime;
+    	this.fkArtistId = fkArtistId;
+    	this.fkAlbumId = fkAlbumId;
+    	this.releaseDate = releaseDate;
+    	this.fkGenreId = fkGenreId;
+    }
 	
 	//getters
 	public int getPkTrackId() {

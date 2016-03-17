@@ -14,6 +14,18 @@ public class Album implements Serializable {
     	
     }
     
+    public Album(String albumName, int fkArtistId) {
+    	this.albumName = albumName;
+    	this.fkArtistId = fkArtistId;
+    }
+    
+    //I have autoIncrement on pk, so I need to constructor above aswell.
+    public Album(int pkAlbumId, String albumName, int fkArtistId) {
+    	this.pkAlbumId = pkAlbumId;
+    	this.albumName = albumName;
+    	this.fkArtistId = fkArtistId;
+    }
+    
     //getters
     public int getPkAlbumId() {
     	return pkAlbumId;

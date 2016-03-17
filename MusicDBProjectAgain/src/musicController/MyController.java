@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -25,20 +27,13 @@ public class MyController implements ActionListener {
 	public MyController(MyMainView view, MyTopModel topModel) {
 		this.view = view;
 		view.addRadioButtonListener(new RadioButtonListener());
-		view.addMouseListener(new TableMouseListener());
-		
+		view.addTableMouseListener(new TableMouseListener());
+		view.addCRUDButtonsListener(new CRUDButtonsListener());
 		
 		this.topModel = topModel;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -66,8 +61,6 @@ public class MyController implements ActionListener {
 			view.getMainTable().addMouseListener(new TableMouseListener());
 			//disables the user to move the colons.
 			view.getMainTable().getTableHeader().setReorderingAllowed(false);
-			//disables the user to change cell values.
-			
 			
 			view.switchEastPanel(rObj);
 		}
@@ -147,4 +140,162 @@ public class MyController implements ActionListener {
 			}	
 		}
 	}
+	//****fix: shorter code!******
+	private class CRUDButtonsListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent aevt) {
+			// TODO Auto-generated method stub
+			System.out.println("CRUD TO BE COMING MATE");
+			JButton bObj = (JButton) aevt.getSource();
+			JTextField[] txtFields;
+			JRadioButton rObj = view.getSelectedRb();
+			String[] stuff = null;
+			
+			if(bObj.getText().equals("ADD")) {
+				if(rObj.getText().equals("Albums")) {
+					txtFields = view.getTxtFieldsAlb();
+					stuff = new String[txtFields.length];
+					
+					//will not use addStuff[0], since id is AI
+					for(int i=0;i<stuff.length;i++)
+						stuff[i] = txtFields[i].getText();
+					
+					//System.out.println(addStuff[1].getClass().getName());
+					//System.out.println(addStuff[2].getClass().getName());
+					//System.out.println(addStuff[2]);
+					addDialog(topModel.addData(Table.ALBUM, stuff));
+				}else if(rObj.getText().equals("Artists")) {
+					txtFields = view.getTxtFieldsArt();
+					stuff = new String[txtFields.length];
+					//will not use addStuff[0], since id is AI
+					for(int i=0;i<stuff.length;i++)
+						stuff[i] = txtFields[i].getText();
+					
+					addDialog(topModel.addData(Table.ARTIST, stuff));		
+				}else if(rObj.getText().equals("Tracks")) {
+					txtFields = view.getTxtFieldsTrk();
+					stuff = new String[txtFields.length];
+					for(int i=0;i<stuff.length;i++)
+						stuff[i] = txtFields[i].getText();
+					
+					addDialog(topModel.addData(Table.TRACK, stuff));	
+				}else {
+					txtFields = view.getTxtFieldsGen();
+					stuff = new String[txtFields.length];
+					for(int i=0;i<stuff.length;i++)
+						stuff[i] = txtFields[i].getText();
+					
+					addDialog(topModel.addData(Table.GENRE, stuff));	
+				}
+				
+				
+				
+			}else if(bObj.getText().equals("REGENERATE")) {
+				
+				
+				
+				
+			}else if(bObj.getText().equals("UPDATE")) {
+				if(rObj.getText().equals("Albums")) {
+					txtFields = view.getTxtFieldsAlb();
+					stuff = new String[txtFields.length];
+					
+					for(int i=0;i<stuff.length;i++)
+						stuff[i] = txtFields[i].getText();
+					
+					updateDialog(topModel.updateData(Table.ALBUM, stuff));
+				}else if(rObj.getText().equals("Artists")) {
+					txtFields = view.getTxtFieldsArt();
+					stuff = new String[txtFields.length];
+					//will not use addStuff[0], since id is AI
+					for(int i=0;i<stuff.length;i++)
+						stuff[i] = txtFields[i].getText();
+					
+					updateDialog(topModel.updateData(Table.ARTIST, stuff));		
+				}else if(rObj.getText().equals("Tracks")) {
+					txtFields = view.getTxtFieldsTrk();
+					stuff = new String[txtFields.length];
+					for(int i=0;i<stuff.length;i++)
+						stuff[i] = txtFields[i].getText();
+					
+					updateDialog(topModel.updateData(Table.TRACK, stuff));	
+				}else {
+					txtFields = view.getTxtFieldsGen();
+					stuff = new String[txtFields.length];
+					for(int i=0;i<stuff.length;i++)
+						stuff[i] = txtFields[i].getText();
+					
+					updateDialog(topModel.updateData(Table.GENRE, stuff));	
+				}
+				
+			//FIX***** short down this code, I've intentionally made it longer!!!(quick code)
+			}else {//Deletation.
+				if(deleteConfirm()) {
+					if(rObj.getText().equals("Albums")) {
+						txtFields = view.getTxtFieldsAlb();
+						stuff = new String[txtFields.length];
+						for(int i=0;i<stuff.length;i++)
+							stuff[i] = txtFields[i].getText();
+						deleteDialog(topModel.deleteData(Table.ALBUM, stuff));
+					}else if(rObj.getText().equals("Artists")) {
+						txtFields = view.getTxtFieldsArt();
+						stuff = new String[txtFields.length];
+						for(int i=0;i<stuff.length;i++)
+							stuff[i] = txtFields[i].getText();
+						deleteDialog(topModel.deleteData(Table.ARTIST, stuff));
+					}else if(rObj.getText().equals("Tracks")) {
+						txtFields = view.getTxtFieldsTrk();
+						stuff = new String[txtFields.length];
+						for(int i=0;i<stuff.length;i++)
+							stuff[i] = txtFields[i].getText();
+						deleteDialog(topModel.deleteData(Table.TRACK, stuff));
+					}else {
+						txtFields = view.getTxtFieldsGen();
+						stuff = new String[txtFields.length];
+						for(int i=0;i<stuff.length;i++)
+							stuff[i] = txtFields[i].getText();
+						deleteDialog(topModel.deleteData(Table.GENRE, stuff));
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Data was not deleted");
+				}
+			}
+		}
+		
+		private void addDialog(boolean bool) {
+			if(bool)
+				JOptionPane.showMessageDialog(null, "Data was sucessfully added");
+			else
+				JOptionPane.showMessageDialog(null, "Data was not sucessfully added");
+		}
+		private void updateDialog(boolean bool) {
+			if(bool)
+				JOptionPane.showMessageDialog(null, "Data was sucessfully added");
+			else
+				JOptionPane.showMessageDialog(null, "Data was not sucessfully added");
+		}
+		private void deleteDialog(boolean bool) {
+			if(bool)
+				JOptionPane.showMessageDialog(null, "Data was sucessfully deleted");
+			else
+				JOptionPane.showMessageDialog(null, "Data was not sucessfully deleted");
+		}
+		private boolean deleteConfirm() {
+			Object[] options = {"HELL YEAH", "HELL NO"};
+			int answer = JOptionPane.showOptionDialog(null,
+				"Do you really want to delete this data?",
+				"CONFIRM DELETE",
+				JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.WARNING_MESSAGE,
+				null,
+				options,
+				options[1]); //1 of safety reason, lal ;) (if user missclicks data will not be deleted).
+			if(answer==0) return true;
+			else return false;
+		}
+		
+	}
+	
+	
 }

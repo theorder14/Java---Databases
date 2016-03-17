@@ -12,6 +12,15 @@ public class Genre implements Serializable{
 	public Genre() {
 		
 	}
+    public Genre(String genreName) {
+    	this.genreName = genreName;
+    }
+    
+    //I have autoIncrement on pk, so I need to constructor above aswell.
+    public Genre(int pkGenreId, String genreName) {
+    	this.pkGenreId = pkGenreId;
+    	this.genreName = genreName;
+    }
 	
 	//getters
 	public int getPkGenreId() {
