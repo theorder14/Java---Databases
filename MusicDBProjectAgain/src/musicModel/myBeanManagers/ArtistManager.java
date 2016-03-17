@@ -209,8 +209,7 @@ public class ArtistManager {
 		return artistList;
 	}
 
-	public static String[] getColonTitles() {
-		String sql = "SELECT * FROM artist";
+	public static String[] getColonTitles(String sql) {
 		String[] colonTitles = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -235,4 +234,6 @@ public class ArtistManager {
 		}
 		return colonTitles;
 	}
+	
+	
 }
