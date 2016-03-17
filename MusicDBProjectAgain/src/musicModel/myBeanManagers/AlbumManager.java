@@ -193,7 +193,7 @@ public class AlbumManager {
 			//one for prefix and one for containing.
 			pstmt.setString(1, albumName+"%"); 
 			rs = pstmt.executeQuery();
-			System.out.println("HEJ inne i try");
+			
 			while(rs.next()) {
 				Album alb = new Album();
 				alb.setPkAlbumId(rs.getInt("pk_album_id"));
@@ -240,7 +240,7 @@ public class AlbumManager {
 
 	
 	//TODO keep developing this method, it should be coolish called from TopModel class!
-	public static List<Album> joinAlbumAndArtist(String sql) {
+	public static List<Album> searchAlbums(String sql, String searchStr) {
 		List<Album> albumList = new ArrayList<>();
 //		String sql =
 //		"SELECT album_name, artist_name FROM album INNER JOIN artist"

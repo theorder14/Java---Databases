@@ -69,78 +69,38 @@ public class MyController implements ActionListener {
 	//TODO 
 	private class TableMouseListener extends MouseAdapter {
 		
-		
+		private JTable table;
+		private JTextField[] txtFields;
+		JRadioButton rObj;
 		public void mouseClicked(MouseEvent mevt) {
 			System.out.println("HEllo you have clicked on the table.");
-			JRadioButton rObj = view.getSelectedRb();
-			JTable table = view.getMainTable();
-			JTextField[] txtFields;
-			//just for clearification, naming variables and NOT FORLOOPING.
-			//check that one row is selected!
+			rObj = view.getSelectedRb();
+			table = view.getMainTable();
+
+			//changfe data in JTextFields to clicked row.
 			if(table.getSelectedRow()!=-1) {
 				if(rObj.getText().equals("Albums")) {
-//					String id = table.getValueAt(table.getSelectedRow(), 0).toString();
-//					String name = table.getValueAt(table.getSelectedRow(), 1).toString();
-//					String fkArtistId = table.getValueAt(table.getSelectedRow(), 2).toString();
-//					txtFields = view.getTxtFieldsAlb();
-//					txtFields[0].setText(id);
-//					txtFields[1].setText(name);
-//					txtFields[2].setText(fkArtistId);
 					txtFields = view.getTxtFieldsAlb();
-					for(int i=0; i<3; i++) 
-						txtFields[i].setText(table.getValueAt(table.getSelectedRow(),i).toString());
-					
+					updateTxtFields();
 				}else if(rObj.getText().equals("Artists")) {
-//					String id = table.getValueAt(table.getSelectedRow(), 0).toString();
-//					String name = table.getValueAt(table.getSelectedRow(), 1).toString();
-//					String country = table.getValueAt(table.getSelectedRow(), 2).toString();
-//					txtFields = view.getTxtFieldsArt();
-//					txtFields[0].setText(id);
-//					txtFields[1].setText(name);
-//					txtFields[2].setText(country);
-					
-					//same as above, but more compact! :)
 					txtFields = view.getTxtFieldsArt();
-					for(int i=0; i<3; i++) 
-						txtFields[i].setText(table.getValueAt(table.getSelectedRow(),i).toString());
-					
+					updateTxtFields();
 				}else if(rObj.getText().equals("Tracks")) {
-//					String id = table.getValueAt(table.getSelectedRow(), 0).toString();
-//					String name = table.getValueAt(table.getSelectedRow(), 1).toString();
-//					String trackTime = table.getValueAt(table.getSelectedRow(), 2).toString();
-//					String fkArtistId = table.getValueAt(table.getSelectedRow(), 3).toString();
-//					String fkAlbumId = table.getValueAt(table.getSelectedRow(), 4).toString();
-//					String releaseDate = table.getValueAt(table.getSelectedRow(), 5).toString();
-//					String fkGenreId = table.getValueAt(table.getSelectedRow(), 6).toString();
-//					txtFields = view.getTxtFieldsTrk();
-//					txtFields[0].setText(id);
-//					txtFields[1].setText(name);
-//					txtFields[2].setText(trackTime);
-//					txtFields[3].setText(fkArtistId);
-//					txtFields[4].setText(fkAlbumId);
-//					txtFields[5].setText(releaseDate);
-//					txtFields[6].setText(fkGenreId);
-					
-					//same as above, but more compact! :)
 					txtFields = view.getTxtFieldsTrk();
-					for(int i=0; i<6; i++) 
-						txtFields[i].setText(table.getValueAt(table.getSelectedRow(),i).toString());	
-				
+					updateTxtFields();	
 				}else {
-//					String id = table.getValueAt(table.getSelectedRow(), 0).toString();
-//					String name = table.getValueAt(table.getSelectedRow(), 1).toString();
-//					txtFields = view.getTxtFieldsGen();
-//					txtFields[0].setText(id);
-//					txtFields[1].setText(name);	
-					
-					//same as above, but more compact! :)
 					txtFields = view.getTxtFieldsGen();
-					for(int i=0; i<2; i++)
-						txtFields[i].setText(table.getValueAt(table.getSelectedRow(),i).toString());
+					updateTxtFields();
 				}
 			}	
 		}
+		
+		private void updateTxtFields() {
+			for(int i=0; i<txtFields.length; i++) 
+				txtFields[i].setText(table.getValueAt(table.getSelectedRow(),i).toString());
+		}	
 	}
+	
 	//TODO ****fix: shorter code!******
 	private class CRUDButtonsListener implements ActionListener {
 
@@ -272,9 +232,9 @@ public class MyController implements ActionListener {
 		}
 		private void updateDialog(boolean bool) {
 			if(bool)
-				JOptionPane.showMessageDialog(null, "Data was sucessfully added");
+				JOptionPane.showMessageDialog(null, "Data was sucessfully updated");
 			else
-				JOptionPane.showMessageDialog(null, "Data was not sucessfully added");
+				JOptionPane.showMessageDialog(null, "Data was not sucessfully updated");
 		}
 		private void deleteDialog(boolean bool) {
 			if(bool)

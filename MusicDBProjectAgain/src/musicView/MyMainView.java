@@ -126,11 +126,12 @@ public class MyMainView extends JPanel {
 		ePanelAlb = new JPanel(new GridLayout(6,1));
 		txtFieldsAlb = new MyCustomTxtField[3];
 		txtFieldsAlb[0] = new MyCustomTxtField("pk_album_id");
+		txtFieldsAlb[0].setEditable(false);
 		txtFieldsAlb[1] = new MyCustomTxtField("album_name");
 		txtFieldsAlb[2] = new MyCustomTxtField("fk_artist_id");
 		
 		labelsAlb = new JLabel[3];
-		labelsAlb[0] = new JLabel("pk_album_id");
+		labelsAlb[0] = new JLabel("pk_album_id (A_I)");
 		labelsAlb[1] = new JLabel("album_name");
 		labelsAlb[2] = new JLabel("fk_artist_id");
 		
@@ -144,11 +145,12 @@ public class MyMainView extends JPanel {
 		ePanelArt = new JPanel(new GridLayout(6,1));
 		txtFieldsArt = new MyCustomTxtField[3];
 		txtFieldsArt[0] = new MyCustomTxtField("pk_artist_id");
+		txtFieldsArt[0].setEditable(false);
 		txtFieldsArt[1] = new MyCustomTxtField("artist_name");
 		txtFieldsArt[2] = new MyCustomTxtField("country");
 		
 		labelsArt = new JLabel[3];
-		labelsArt[0] = new JLabel("pk_artist_id");
+		labelsArt[0] = new JLabel("pk_artist_id (A_I)");
 		labelsArt[1] = new JLabel("artist_name");
 		labelsArt[2] = new JLabel("country");
 		
@@ -162,6 +164,7 @@ public class MyMainView extends JPanel {
 		ePanelTrk = new JPanel(new GridLayout(14,1));
 		txtFieldsTrk = new MyCustomTxtField[7];
 		txtFieldsTrk[0] = new MyCustomTxtField("pk_track_id");
+		txtFieldsTrk[0].setEditable(false);
 		txtFieldsTrk[1] = new MyCustomTxtField("track_name");
 		txtFieldsTrk[2] = new MyCustomTxtField("track_time");
 		txtFieldsTrk[3] = new MyCustomTxtField("fk_artist_id");
@@ -170,7 +173,7 @@ public class MyMainView extends JPanel {
 		txtFieldsTrk[6] = new MyCustomTxtField("fk_genre_id");
 		
 		labelsTrk = new JLabel[7];
-		labelsTrk[0] = new JLabel("pk_track_id");
+		labelsTrk[0] = new JLabel("pk_track_id (A_I)");
 		labelsTrk[1] = new JLabel("track_name");
 		labelsTrk[2] = new JLabel("track_time");
 		labelsTrk[3] = new JLabel("fk_artist_id");
@@ -188,10 +191,11 @@ public class MyMainView extends JPanel {
 		ePanelGen = new JPanel(new GridLayout(4,1));
 		txtFieldsGen = new MyCustomTxtField[2];
 		txtFieldsGen[0] = new MyCustomTxtField("pk_genre_id");
+		txtFieldsGen[0].setEditable(false);
 		txtFieldsGen[1] = new MyCustomTxtField("genre_name");
 		
 		labelsGen = new JLabel[2];
-		labelsGen[0] = new JLabel("pk_genre_id");
+		labelsGen[0] = new JLabel("pk_genre_id (A_I)");
 		labelsGen[1] = new JLabel("genre_name");
 		
 		for(int i=0; i<txtFieldsGen.length;i++) { // eller labelsTrk.length

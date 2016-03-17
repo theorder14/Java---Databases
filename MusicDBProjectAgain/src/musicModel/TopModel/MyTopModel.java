@@ -132,7 +132,7 @@ public class MyTopModel {
 		case TRACK:
 			return TrackManager.updateTrack(new Track(Integer.parseInt(updateStuff[0]), updateStuff[1], Integer.parseInt(updateStuff[2]),
 					Integer.parseInt(updateStuff[3]), Integer.parseInt(updateStuff[4]),
-					Integer.parseInt(updateStuff[5]), Integer.parseInt(updateStuff[4])));
+					Integer.parseInt(updateStuff[5]), Integer.parseInt(updateStuff[6])));
 		case GENRE:
 			return GenreManager.updateGenre(new Genre(Integer.parseInt(updateStuff[0]),updateStuff[1]));
 		default:
