@@ -49,13 +49,13 @@ public class MyController implements ActionListener {
 			
 			JRadioButton rObj = (JRadioButton) aevt.getSource();
 			if(rObj.getText().equals("Albums")) {
-				view.getMainTable().setModel(topModel.getTableData(Table.ALBUM, ""));
+				view.getMainTable().setModel(topModel.fetchTableData(Table.ALBUM, ""));
 			}else if(rObj.getText().equals("Artists")) {
-				view.getMainTable().setModel(topModel.getTableData(Table.ARTIST, ""));
+				view.getMainTable().setModel(topModel.fetchTableData(Table.ARTIST, ""));
 			}else if(rObj.getText().equals("Tracks")) {
-				view.getMainTable().setModel(topModel.getTableData(Table.TRACK, ""));
+				view.getMainTable().setModel(topModel.fetchTableData(Table.TRACK, ""));
 			}else {
-				view.getMainTable().setModel(topModel.getTableData(Table.GENRE, ""));
+				view.getMainTable().setModel(topModel.fetchTableData(Table.GENRE, ""));
 			}
 			//gotta add listener again, after switched model.
 			view.getMainTable().addMouseListener(new TableMouseListener());
@@ -101,127 +101,81 @@ public class MyController implements ActionListener {
 		}	
 	}
 	
-	//TODO ****fix: shorter code!******
+	//TODO atm the only way to get auto update after clicking on delte,update and add button is to call
+	//view.getMainTable().setModel(topModel.fetchTableData(ENUM, "")); , but I will wait a bit
+	//and see if I get something else in my mind, a more general refresher of the table!
 	private class CRUDButtonsListener implements ActionListener {
-
+		
 		@Override
 		public void actionPerformed(ActionEvent aevt) {
 			// TODO Auto-generated method stub
 			System.out.println("CRUD TO BE COMING MATE");
 			JButton bObj = (JButton) aevt.getSource();
-			JTextField[] txtFields;
 			JRadioButton rObj = view.getSelectedRb();
-			String[] stuff = null;
-			
+				
 			if(bObj.getText().equals("ADD")) {
 				if(rObj.getText().equals("Albums")) {
-					txtFields = view.getTxtFieldsAlb();
-					stuff = new String[txtFields.length];
-					
-					//will not use addStuff[0], since id is AI
-					for(int i=0;i<stuff.length;i++)
-						stuff[i] = txtFields[i].getText();
-					
-					//System.out.println(addStuff[1].getClass().getName());
-					//System.out.println(addStuff[2].getClass().getName());
-					//System.out.println(addStuff[2]);
-					addDialog(topModel.addData(Table.ALBUM, stuff));
+					addDialog(topModel.addData(Table.ALBUM,
+						getGatheredStuff(view.getTxtFieldsAlb(), view.getTxtFieldsAlb().length)));
 				}else if(rObj.getText().equals("Artists")) {
-					txtFields = view.getTxtFieldsArt();
-					stuff = new String[txtFields.length];
-					//will not use addStuff[0], since id is AI
-					for(int i=0;i<stuff.length;i++)
-						stuff[i] = txtFields[i].getText();
-					
-					addDialog(topModel.addData(Table.ARTIST, stuff));		
+					addDialog(topModel.addData(Table.ARTIST,
+						getGatheredStuff(view.getTxtFieldsArt(), view.getTxtFieldsArt().length)));		
 				}else if(rObj.getText().equals("Tracks")) {
-					txtFields = view.getTxtFieldsTrk();
-					stuff = new String[txtFields.length];
-					for(int i=0;i<stuff.length;i++)
-						stuff[i] = txtFields[i].getText();
-					
-					addDialog(topModel.addData(Table.TRACK, stuff));	
+					addDialog(topModel.addData(Table.TRACK,
+						getGatheredStuff(view.getTxtFieldsTrk(), view.getTxtFieldsTrk().length)));	
 				}else {
-					txtFields = view.getTxtFieldsGen();
-					stuff = new String[txtFields.length];
-					for(int i=0;i<stuff.length;i++)
-						stuff[i] = txtFields[i].getText();
-					
-					addDialog(topModel.addData(Table.GENRE, stuff));	
+					addDialog(topModel.addData(Table.GENRE,
+						getGatheredStuff(view.getTxtFieldsGen(), view.getTxtFieldsGen().length)));	
 				}
-				
-				
-				
 			}else if(bObj.getText().equals("REGENERATE")) {
-				
+				//TODO, no functionality yet, add thisd l8r
 				
 				
 				
 			}else if(bObj.getText().equals("UPDATE")) {
 				if(rObj.getText().equals("Albums")) {
-					txtFields = view.getTxtFieldsAlb();
-					stuff = new String[txtFields.length];
-					
-					for(int i=0;i<stuff.length;i++)
-						stuff[i] = txtFields[i].getText();
-					
-					updateDialog(topModel.updateData(Table.ALBUM, stuff));
+					updateDialog(topModel.updateData(Table.ALBUM,
+						getGatheredStuff(view.getTxtFieldsAlb(), view.getTxtFieldsAlb().length)));
 				}else if(rObj.getText().equals("Artists")) {
-					txtFields = view.getTxtFieldsArt();
-					stuff = new String[txtFields.length];
-					//will not use addStuff[0], since id is AI
-					for(int i=0;i<stuff.length;i++)
-						stuff[i] = txtFields[i].getText();
-					
-					updateDialog(topModel.updateData(Table.ARTIST, stuff));		
+					updateDialog(topModel.updateData(Table.ARTIST,
+						getGatheredStuff(view.getTxtFieldsArt(), view.getTxtFieldsArt().length)));		
 				}else if(rObj.getText().equals("Tracks")) {
-					txtFields = view.getTxtFieldsTrk();
-					stuff = new String[txtFields.length];
-					for(int i=0;i<stuff.length;i++)
-						stuff[i] = txtFields[i].getText();
-					
-					updateDialog(topModel.updateData(Table.TRACK, stuff));	
+					updateDialog(topModel.updateData(Table.TRACK,
+						getGatheredStuff(view.getTxtFieldsTrk(), view.getTxtFieldsTrk().length)));	
 				}else {
-					txtFields = view.getTxtFieldsGen();
-					stuff = new String[txtFields.length];
-					for(int i=0;i<stuff.length;i++)
-						stuff[i] = txtFields[i].getText();
-					
-					updateDialog(topModel.updateData(Table.GENRE, stuff));	
+					updateDialog(topModel.updateData(Table.GENRE,
+						getGatheredStuff(view.getTxtFieldsGen(), view.getTxtFieldsGen().length)));	
 				}
-				
-			//FIX***** short down this code, I've intentionally made it longer!!!(quick code)
 			}else {//Deletation.
 				if(deleteConfirm()) {
 					if(rObj.getText().equals("Albums")) {
-						txtFields = view.getTxtFieldsAlb();
-						stuff = new String[txtFields.length];
-						for(int i=0;i<stuff.length;i++)
-							stuff[i] = txtFields[i].getText();
-						deleteDialog(topModel.deleteData(Table.ALBUM, stuff));
+						deleteDialog(topModel.deleteData(Table.ALBUM, 
+							getGatheredStuff(view.getTxtFieldsAlb(), view.getTxtFieldsAlb().length)));
 					}else if(rObj.getText().equals("Artists")) {
-						txtFields = view.getTxtFieldsArt();
-						stuff = new String[txtFields.length];
-						for(int i=0;i<stuff.length;i++)
-							stuff[i] = txtFields[i].getText();
-						deleteDialog(topModel.deleteData(Table.ARTIST, stuff));
+						deleteDialog(topModel.deleteData(Table.ARTIST,
+							getGatheredStuff(view.getTxtFieldsArt(), view.getTxtFieldsArt().length)));
 					}else if(rObj.getText().equals("Tracks")) {
-						txtFields = view.getTxtFieldsTrk();
-						stuff = new String[txtFields.length];
-						for(int i=0;i<stuff.length;i++)
-							stuff[i] = txtFields[i].getText();
-						deleteDialog(topModel.deleteData(Table.TRACK, stuff));
+						deleteDialog(topModel.deleteData(Table.TRACK, 
+							getGatheredStuff(view.getTxtFieldsTrk(), view.getTxtFieldsTrk().length)));
 					}else {
-						txtFields = view.getTxtFieldsGen();
-						stuff = new String[txtFields.length];
-						for(int i=0;i<stuff.length;i++)
-							stuff[i] = txtFields[i].getText();
-						deleteDialog(topModel.deleteData(Table.GENRE, stuff));
+						deleteDialog(topModel.deleteData(Table.GENRE, 
+							getGatheredStuff(view.getTxtFieldsGen(), view.getTxtFieldsGen().length)));
 					}
 				}else {
 					JOptionPane.showMessageDialog(null, "Data was not deleted");
 				}
 			}
+
+//			view.getMainTable().repaint();
+//			view.getMainTable().revalidate();
+			view.refreshView();
+		}
+		
+		private String[] getGatheredStuff(JTextField[] txtFields, int numOfStuff) {
+			String[] stuff = new String[numOfStuff];
+			for(int i=0;i<stuff.length;i++)
+				stuff[i] = txtFields[i].getText();
+			return stuff;
 		}
 		
 		private void addDialog(boolean bool) {
@@ -266,13 +220,13 @@ public class MyController implements ActionListener {
 			JRadioButton rObj = view.getSelectedRb();
 			String searchStr = view.getSearchField().getText();
 			if(rObj.getText().equals("Albums")) {
-				view.getMainTable().setModel(topModel.getTableData(Table.ALBUM, searchStr));
+				view.getMainTable().setModel(topModel.fetchTableData(Table.ALBUM, searchStr));
 			}else if(rObj.getText().equals("Artists")) {
-				view.getMainTable().setModel(topModel.getTableData(Table.ARTIST, searchStr));
+				view.getMainTable().setModel(topModel.fetchTableData(Table.ARTIST, searchStr));
 			}else if(rObj.getText().equals("Tracks")) {
-				view.getMainTable().setModel(topModel.getTableData(Table.TRACK, searchStr));
+				view.getMainTable().setModel(topModel.fetchTableData(Table.TRACK, searchStr));
 			}else {
-				view.getMainTable().setModel(topModel.getTableData(Table.GENRE, searchStr));
+				view.getMainTable().setModel(topModel.fetchTableData(Table.GENRE, searchStr));
 			}
 			view.getMainTable().addMouseListener(new TableMouseListener());
 		}

@@ -12,6 +12,7 @@ import musicModel.MyBeans.Genre;
 import musicModel.MyBeans.Track;
 import musicModel.myBeanManagers.AlbumManager;
 import musicModel.myBeanManagers.ArtistManager;
+import musicModel.myBeanManagers.GeneralManager;
 import musicModel.myBeanManagers.GenreManager;
 import musicModel.myBeanManagers.TrackManager;
 
@@ -21,7 +22,7 @@ public class MyTopModel {
 	//Class to handle data from beans, by using the Managers.
 	
 	//TODO write shorter code!
-	public DefaultTableModel getTableData(Table table, String searchStr) {
+	public DefaultTableModel fetchTableData(Table table, String searchStr) {
 		
 		//DefaultTableModel dm = new DefaultTableModel();
 		DefaultTableModel dm = new DefaultTableModel() {
@@ -37,7 +38,7 @@ public class MyTopModel {
 		switch(table) {
 			case ALBUM:
 				List<Album> albList = AlbumManager.searchAlbums(searchStr);
-				colonTitles = AlbumManager.getColonTitles("SELECT * FROM album");
+				colonTitles = GeneralManager.getColonTitles("SELECT * FROM album");
 				addColonTitlesToTable(dm,colonTitles);
 				
 				rowData = new Object[3];
@@ -51,7 +52,7 @@ public class MyTopModel {
 				return dm;
 			case ARTIST:
 				List<Artist> artList = ArtistManager.searchArtists(searchStr);
-				colonTitles = ArtistManager.getColonTitles("SELECT * FROM artist");
+				colonTitles = GeneralManager.getColonTitles("SELECT * FROM artist");
 				addColonTitlesToTable(dm,colonTitles);
 				
 				rowData = new Object[3];
@@ -65,7 +66,7 @@ public class MyTopModel {
 				return dm;
 			case TRACK:
 				List<Track> trkList= TrackManager.searchTracks(searchStr);
-				colonTitles = TrackManager.getColonTitles(); //TODO change getColonTitles, to have input
+				colonTitles = GeneralManager.getColonTitles("SELECT * FROM genre"); 
 				addColonTitlesToTable(dm,colonTitles);
 				rowData = new Object[7];
 				System.out.println(rowData.length);
@@ -82,7 +83,7 @@ public class MyTopModel {
 				return dm;
 			case GENRE:
 				List<Genre> genList= GenreManager.searchGenres(searchStr);
-				colonTitles = GenreManager.getColonTitles(); //TODO change getColonTitles, to have input
+				colonTitles = GeneralManager.getColonTitles("SELECT * FROM genre"); //TODO change getColonTitles, to have input
 				addColonTitlesToTable(dm,colonTitles);
 				rowData = new Object[2];
 				System.out.println(rowData.length);
@@ -141,7 +142,6 @@ public class MyTopModel {
 		}
 	}
 	
-	//******fix: change input l8r, deleteStuff could just aswell be just an integer (int)
 	public boolean deleteData(Table table, String[] deleteStuff) {
 		switch(table) {
 		case ALBUM:
@@ -158,5 +158,9 @@ public class MyTopModel {
 		}
 	}
 
+	public static boolean fetchQueryData() {
+		return false;
+		
+	}
 	
 }

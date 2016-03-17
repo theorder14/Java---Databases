@@ -198,68 +198,40 @@ public class TrackManager {
 
 	//nytt sens thai
 	public static List<Track> searchTracks(String trackName) {
-			List<Track> trackList = new ArrayList<>();
-			String sql = "SELECT * FROM track WHERE track_name LIKE ?";
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			
-			try {
-				pstmt = conn.prepareStatement(sql);
-				// to get all names with this string in it. We might add two methods;
-				//one for prefix and one for containing.
-				pstmt.setString(1, trackName+"%"); 
-				rs = pstmt.executeQuery();
-				System.out.println("HEJ inne i try");
-				while(rs.next()) {
-					Track trk = new Track();
-					trk.setPkTrackId(rs.getInt("pk_track_id"));
-					trk.setTrackName(rs.getString("track_name"));
-					trk.setTrackTime(rs.getInt("track_time"));
-					trk.setFkArtistId(rs.getInt("fk_artist_id"));
-					trk.setFkAlbumId(rs.getInt("fk_album_id"));
-					trk.setReleaseDate(rs.getInt("release_date"));	
-					trk.setFkGenreId(rs.getInt("fk_genre_id")); // måste lägga till i databas.
-					System.out.println(trk);
-					trackList.add(trk);	
-					System.out.println("HEJ PRIRN");
-				}
-				return trackList;
-				
-			} catch (SQLException e) {
-				System.err.println("Error message: " + e.getMessage());
-				System.err.println("Error code: " +e.getErrorCode());
-				System.err.println("SQL state: " +e.getSQLState());
-				return null;	
-			}finally {
-				MyJDBCCloser.close(rs, pstmt);
-			}
-		}
-	
-	public static String[] getColonTitles() {
-		String sql = "SELECT * FROM track";
-		String[] colonTitles = null;
-		Statement stmt = null;
+		List<Track> trackList = new ArrayList<>();
+		String sql = "SELECT * FROM track WHERE track_name LIKE ?";
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		ResultSetMetaData rsmd = null;
-		//pk_album_id, album_name, fk_artist_id
+		
 		try {
-			stmt = conn.createStatement();
-			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_READ_ONLY);
-			rs = stmt.executeQuery(sql);
-			rsmd = rs.getMetaData();
-			colonTitles = new String[rsmd.getColumnCount()];
-			for(int i=0; i<colonTitles.length; i++) {
-				colonTitles[i] = rsmd.getColumnName(i+1);
+			pstmt = conn.prepareStatement(sql);
+			// to get all names with this string in it. We might add two methods;
+			//one for prefix and one for containing.
+			pstmt.setString(1, trackName+"%"); 
+			rs = pstmt.executeQuery();
+			System.out.println("HEJ inne i try");
+			while(rs.next()) {
+				Track trk = new Track();
+				trk.setPkTrackId(rs.getInt("pk_track_id"));
+				trk.setTrackName(rs.getString("track_name"));
+				trk.setTrackTime(rs.getInt("track_time"));
+				trk.setFkArtistId(rs.getInt("fk_artist_id"));
+				trk.setFkAlbumId(rs.getInt("fk_album_id"));
+				trk.setReleaseDate(rs.getInt("release_date"));	
+				trk.setFkGenreId(rs.getInt("fk_genre_id")); // måste lägga till i databas.
+				System.out.println(trk);
+				trackList.add(trk);	
+				System.out.println("HEJ PRIRN");
 			}
+			return trackList;
+			
 		} catch (SQLException e) {
 			System.err.println("Error message: " + e.getMessage());
 			System.err.println("Error code: " +e.getErrorCode());
 			System.err.println("SQL state: " +e.getSQLState());
-		} finally {
-			MyJDBCCloser.close(rs, stmt);
+			return null;	
+		}finally {
+			MyJDBCCloser.close(rs, pstmt);
 		}
-		return colonTitles;
 	}
-
 }

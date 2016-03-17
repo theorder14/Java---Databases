@@ -200,31 +200,4 @@ public class GenreManager {
 			MyJDBCCloser.close(rs, pstmt);
 		}
 	}
-	
-	public static String[] getColonTitles() {
-		String sql = "SELECT * FROM genre";
-		String[] colonTitles = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		ResultSetMetaData rsmd = null;
-		//pk_album_id, album_name, fk_artist_id
-		try {
-			stmt = conn.createStatement();
-			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_READ_ONLY);
-			rs = stmt.executeQuery(sql);
-			rsmd = rs.getMetaData();
-			colonTitles = new String[rsmd.getColumnCount()];
-			for(int i=0; i<colonTitles.length; i++) {
-				colonTitles[i] = rsmd.getColumnName(i+1);
-			}
-		} catch (SQLException e) {
-			System.err.println("Error message: " + e.getMessage());
-			System.err.println("Error code: " +e.getErrorCode());
-			System.err.println("SQL state: " +e.getSQLState());
-		} finally {
-			MyJDBCCloser.close(rs, stmt);
-		}
-		return colonTitles;
-	}
 }

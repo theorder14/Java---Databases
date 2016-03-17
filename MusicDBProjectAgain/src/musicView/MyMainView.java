@@ -93,12 +93,19 @@ public class MyMainView extends JPanel {
 	
 		add(nPanel, BorderLayout.NORTH);
 	}
-
+	
+//TODO ugly with empty fillLabel, might change l8r.
 	private void makeSouthPanel() {
-		sPanel = new JPanel(new GridLayout(3,2));
+		sPanel = new JPanel(new GridLayout(4,2));
+		
+		
+		
+		JLabel rbLabel = new JLabel("Tables:");
+		JLabel fillLabel1 = new JLabel("   ");
+		sPanel.add(rbLabel);
+		sPanel.add(fillLabel1);
 		
 		rbs = new JRadioButton[4];
-		
 		rbs[0] = new JRadioButton("Albums");
 		rbs[1] = new JRadioButton("Artists");
 		rbs[2] = new JRadioButton("Tracks");
@@ -256,6 +263,12 @@ public class MyMainView extends JPanel {
 	public JTable getMainTable() {
 		return mainTable;
 	}
+	public JPanel getEastPanel() {
+		return ePanel;
+	}
+	public JPanel getCenterPanel() {
+		return cPanel;
+	}
 	
 	public JRadioButton getSelectedRb() {
 		if(rbs[0].isSelected())
@@ -300,6 +313,11 @@ public class MyMainView extends JPanel {
 	}
 	public JButton getSearchButton() {
 		return searchB;
+	}
+	
+	public void refreshView() {
+		this.revalidate();
+		this.repaint();
 	}
 	
 	private class MyCustomTxtField extends JTextField {
