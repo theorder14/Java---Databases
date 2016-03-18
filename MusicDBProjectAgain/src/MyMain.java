@@ -14,7 +14,7 @@ public class MyMain extends JFrame{
 	}
 	
 	public MyMain() {
-		MyMainView view = new MyMainView();
+		MyMainView view = new MyMainView(this);
 		add(view);
 		MyTopModel topModel = new MyTopModel();
 		MyController cont = new MyController(view, topModel);

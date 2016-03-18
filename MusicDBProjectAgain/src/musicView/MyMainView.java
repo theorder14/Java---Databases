@@ -10,7 +10,11 @@ import java.awt.event.MouseListener;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -22,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class MyMainView extends JPanel {
 
-
+	
 	private static final long serialVersionUID = -6586691518396309146L;
 
 	private JPanel cPanel,nPanel, sPanel, ePanel, wPanel;
@@ -39,11 +43,13 @@ public class MyMainView extends JPanel {
 	private MyCustomButton searchB;
 	private MyCustomTxtField searchField;
 	
+	private JFrame parentFrame;
 	//private DefaultTableModel[] dm;
 	
 	
 	
-	public MyMainView() {
+	public MyMainView(JFrame parentFrame) {
+		this.parentFrame = parentFrame;
 		initGUI();
 	}
 	
@@ -54,8 +60,26 @@ public class MyMainView extends JPanel {
 		makeSouthPanel();
 		makeEastPanel();
 		makeWestPanel();
+		makeMenuBar();
+
 	}
 	
+	private void makeMenuBar() {
+		JMenuBar menubar = new JMenuBar();
+		parentFrame.setJMenuBar(menubar);
+		
+		JMenu navigate = new JMenu("Navigate");
+		menubar.add(navigate);
+		JMenuItem editTables = new JMenuItem("Edit tables");
+		JMenuItem joinTables = new JMenuItem("Join tables!");
+		navigate.add(editTables);
+		navigate.add(joinTables);
+		
+		
+		
+		
+		
+	}
 	private void makeCenterPanel() {
 		cPanel = new JPanel();	
 		JScrollPane cPanelScrollPane = new JScrollPane(cPanel);
@@ -81,42 +105,23 @@ public class MyMainView extends JPanel {
 	
 //	updateB, addB, deleteB, regenerateB;
 	private void makeNorthPanel() {
-		nPanel = new JPanel(); // new BoxLayout(nPanel,BoxLayout.X_AXIS)
+		nPanel = new JPanel();
+		//nPanel.setLayout(new BoxLayout(nPanel,BoxLayout.X_AXIS));
 		crudBtns = new MyCustomButton[4];
 		crudBtns[0] = new MyCustomButton("ADD");
 		crudBtns[1] = new MyCustomButton("REGENERATE");
 		crudBtns[2] = new MyCustomButton("UPDATE");
 		crudBtns[3] = new MyCustomButton("DELETE");
 		
-		for(int i=0;i<crudBtns.length;i++)
-			nPanel.add(crudBtns[i]);
+		for(int i=0;i<crudBtns.length;i++) 
+				nPanel.add(crudBtns[i]);
 	
 		add(nPanel, BorderLayout.NORTH);
 	}
 	
-//TODO ugly with empty fillLabel, might change l8r.
 	private void makeSouthPanel() {
-		sPanel = new JPanel(new GridLayout(4,2));
-		
-		
-		
-		JLabel rbLabel = new JLabel("Tables:");
-		JLabel fillLabel1 = new JLabel("   ");
-		sPanel.add(rbLabel);
-		sPanel.add(fillLabel1);
-		
-		rbs = new JRadioButton[4];
-		rbs[0] = new JRadioButton("Albums");
-		rbs[1] = new JRadioButton("Artists");
-		rbs[2] = new JRadioButton("Tracks");
-		rbs[3] = new JRadioButton("Genres");
-		
-		ButtonGroup btnGrp = new ButtonGroup();
-		for(int i=0; i<rbs.length; i++) {
-			btnGrp.add(rbs[i]);
-			sPanel.add(rbs[i]);
-		}	
-		
+		sPanel = new JPanel(new GridLayout(1,2));
+
 		searchB = new MyCustomButton("Search by name");
 		searchField = new MyCustomTxtField("");
 		sPanel.add(searchB);
@@ -238,7 +243,26 @@ public class MyMainView extends JPanel {
 
 	private void makeWestPanel() {
 		wPanel = new JPanel();
-			
+		wPanel.setLayout(new BoxLayout(wPanel,BoxLayout.Y_AXIS));
+
+		JLabel rbLabel = new JLabel("Tables:");
+//		JLabel fillLabel1 = new JLabel("   ");
+		wPanel.add(rbLabel);
+//		wPanel.add(fillLabel1);
+		
+		rbs = new JRadioButton[4];
+		rbs[0] = new JRadioButton("Albums");
+		rbs[1] = new JRadioButton("Artists");
+		rbs[2] = new JRadioButton("Tracks");
+		rbs[3] = new JRadioButton("Genres");
+		
+		ButtonGroup btnGrp = new ButtonGroup();
+		for(int i=0; i<rbs.length; i++) {
+			btnGrp.add(rbs[i]);
+			wPanel.add(rbs[i]);
+		}	
+		
+		
 		add(wPanel, BorderLayout.WEST);
 	}
 	
