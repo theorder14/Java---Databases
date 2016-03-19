@@ -21,6 +21,7 @@ public class MyTopModel {
 
 	//Class to handle data from beans, by using the Managers.
 	
+
 	//TODO write shorter code!
 	public DefaultTableModel fetchTableData(Table table, String searchStr) {
 		
@@ -158,9 +159,75 @@ public class MyTopModel {
 		}
 	}
 
-	public static boolean fetchQueryData() {
-		return false;
+	//TODO this one shall hopefully use GeneralManager, the general of them all, YARR! :)
+	public DefaultTableModel fetchJoinData(SqlQry sql, String searchStr) {
+		
+		//DefaultTableModel dm = new DefaultTableModel();
+		DefaultTableModel dm = new DefaultTableModel() {
+			//making ALL cells uneditable for user.
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
+		String[] colonTitles = null;
+//		Object[] rowData = null;
+		
+		switch(sql) {
+			case JOIN1:
+				Object[][] array = GeneralManager.joinTables(sql.JOIN1.getQry(), searchStr);
+				int numOfRows = array.length;
+				int numOfColons = array[0].length;
+				System.out.println("numOFRows in topmodel: " + numOfRows);
+				System.out.println("numOfCols in topmode: " + numOfColons);
+				printTestArray(array);
+				colonTitles = GeneralManager.getColonTitles(sql.JOIN1.getQry());
+				
+				
+				//inserting colonTitles
+				addColonTitlesToTable(dm,colonTitles);	
+				//inserting rows.
+				for(int r=0; r<numOfRows; r++) {
+					dm.insertRow(r, array[r]);
+				}
+				return dm;
+				
+				
+//				print out colonTitles test.
+//				for(int i=0; i<colonTitles.length; i++)
+//					System.out.println(colonTitles[i]);
+
+
+				//List<Album> albList = AlbumManager.searchAlbums(searchStr);
+				
+//				addColonTitlesToTable(dm,colonTitles);
+//				colonTitles = GeneralManager.getColonTitles(sql.JOIN1.getQry());
+//				rowData = new Object[3];
+//				System.out.println(rowData.length);
+//				for(int i=0; i<albList.size(); i++) {
+//					rowData[0] = albList.get(i).getPkAlbumId();
+//					rowData[1] = albList.get(i).getAlbumName();
+//					rowData[2] = albList.get(i).getFkArtistId();
+//					dm.insertRow(i, rowData);
+//				}
+				//return dm;
+		}
+		
+		return null;
 		
 	}
+	
+	private  void printTestArray(Object[][] array) {
+		for(int r=0; r<array.length; r++) {
+			for(int c=0; c<array[0].length; c++) {
+				
+				if(c%array[0].length==0)
+					System.out.println("");
+				System.out.print(array[r][c]);
+			}
+		}
+		//System.out.println(array);
+	}
+	
 	
 }

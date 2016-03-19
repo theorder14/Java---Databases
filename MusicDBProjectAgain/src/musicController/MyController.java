@@ -8,12 +8,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import musicModel.TopModel.MyTopModel;
+import musicModel.TopModel.SqlQry;
 import musicModel.TopModel.Table;
 import musicView.MyMainView;
 
@@ -30,7 +33,7 @@ public class MyController implements ActionListener {
 		view.addTableMouseListener(new TableMouseListener());
 		view.addCRUDButtonsListener(new CRUDButtonsListener());
 		view.addSearchButtonListener(new SearchButtonListener());
-		
+		view.addMenjuBarListener(new MenjuBarListener());
 		this.topModel = topModel;
 	}
 	
@@ -39,6 +42,31 @@ public class MyController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		//TODO
+	}
+	//TODO switch betwen panels!
+	private class MenjuBarListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent aevt) {
+
+			JMenuItem mObj = (JMenuItem) aevt.getSource();
+			if(mObj.getText().equals("Edit Tables")) {
+				view.getMainTable().setModel(new DefaultTableModel()); // clear table
+				view.displayEditTablePanels();
+				
+			}else {
+				//TODO make GUI for these new joins. Example: let every join-option that
+				//you give the user be a radioButton on the new panel
+				//JOIN TABLES
+				//view.getMainTable().setModel(topModel.fetchJoinData(SqlQry.JOIN1, "searchStr"));
+				view.displayJoinTablePanels();
+				view.getMainTable().setModel(new DefaultTableModel()); // clear table
+
+			}
+			view.revalidate();
+			view.repaint();
+		}
+		
 	}
 	
 	private class RadioButtonListener implements ActionListener {

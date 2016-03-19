@@ -45,6 +45,10 @@ public class MyMainView extends JPanel {
 	
 	private JFrame parentFrame;
 	//private DefaultTableModel[] dm;
+	private JMenuBar menubar;
+	private JMenu navigate;
+	private JMenuItem joinTables, editTables;
+	private JLabel rbLabel;
 	
 	
 	
@@ -65,13 +69,13 @@ public class MyMainView extends JPanel {
 	}
 	
 	private void makeMenuBar() {
-		JMenuBar menubar = new JMenuBar();
+		menubar = new JMenuBar();
 		parentFrame.setJMenuBar(menubar);
 		
-		JMenu navigate = new JMenu("Navigate");
+		navigate = new JMenu("Navigate");
 		menubar.add(navigate);
-		JMenuItem editTables = new JMenuItem("Edit tables");
-		JMenuItem joinTables = new JMenuItem("Join tables!");
+		editTables = new JMenuItem("Edit tables");
+		joinTables = new JMenuItem("Join tables!");
 		navigate.add(editTables);
 		navigate.add(joinTables);
 		
@@ -245,7 +249,7 @@ public class MyMainView extends JPanel {
 		wPanel = new JPanel();
 		wPanel.setLayout(new BoxLayout(wPanel,BoxLayout.Y_AXIS));
 
-		JLabel rbLabel = new JLabel("Tables:");
+		rbLabel = new JLabel("Tables:");
 //		JLabel fillLabel1 = new JLabel("   ");
 		wPanel.add(rbLabel);
 //		wPanel.add(fillLabel1);
@@ -284,6 +288,11 @@ public class MyMainView extends JPanel {
 	public void addSearchButtonListener(ActionListener actionListen) {
 		searchB.addActionListener(actionListen);
 	}
+	
+	public void addMenjuBarListener(ActionListener actionListen) {
+		editTables.addActionListener(actionListen);
+		joinTables.addActionListener(actionListen);
+	}
 	public JTable getMainTable() {
 		return mainTable;
 	}
@@ -292,6 +301,15 @@ public class MyMainView extends JPanel {
 	}
 	public JPanel getCenterPanel() {
 		return cPanel;
+	}
+	public JPanel getNorthPanel() {
+		return nPanel;
+	}
+	public JPanel getWestPanel() {
+		return wPanel;
+	}
+	public JPanel getSouthPanel() {
+		return sPanel;
 	}
 	
 	public JRadioButton getSelectedRb() {
@@ -342,6 +360,47 @@ public class MyMainView extends JPanel {
 	public void refreshView() {
 		this.revalidate();
 		this.repaint();
+	}
+	//TODO , hmm it wont respond as I want it to.
+	public void displayEditTablePanels() {
+		//cPanel.removeAll();
+		//ePanel.removeAll();
+		//wPanel.removeAll();
+		//nPanel.removeAll();
+		//sPanel.removeAll();
+		
+		
+		
+		//north 
+		for(int i=0;i<crudBtns.length;i++) 
+			nPanel.add(crudBtns[i]);
+		revalidate();
+		repaint();
+		//south
+		sPanel.add(searchB);
+		sPanel.add(searchField);
+		
+		
+		//west
+		for(int i=0; i<rbs.length; i++) {
+			wPanel.add(rbs[i]);
+		}	
+		
+
+		
+	}
+	
+	//TODO , hmm it wont respond as I want it to.
+	public void displayJoinTablePanels() {
+		cPanel.removeAll();
+		ePanel.removeAll();
+		wPanel.removeAll();
+		nPanel.removeAll();
+		sPanel.removeAll();
+		parentFrame.revalidate();
+		parentFrame.repaint();
+		
+		
 	}
 	
 	private class MyCustomTxtField extends JTextField {

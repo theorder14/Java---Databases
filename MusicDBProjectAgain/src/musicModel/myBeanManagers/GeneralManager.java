@@ -53,8 +53,8 @@ public class GeneralManager {
 
 	
 	//TODO keep developing this method, it should be coolish called from TopModel class!
-	public static List<Album> searchAlbums(String sql, String searchStr) {
-		List<Album> albumList = new ArrayList<>();
+	public static Object[][] joinTables(String sql, String searchStr) {
+		Object[][] joinArray;
 //		String sql =
 //		"SELECT album_name, artist_name FROM album INNER JOIN artist"
 //		+ " ON fk_artist_id = pk_artist_id";
@@ -65,21 +65,43 @@ public class GeneralManager {
 			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
 			rs = stmt.executeQuery(sql);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int numOfColons = rsmd.getColumnCount();
+			rs.last();
+			int numOfRows = rs.getRow();
+			rs.beforeFirst();
+			joinArray = new String[numOfRows][numOfColons];
+			int whichRow = 0;
 			while(rs.next()) {
-				Album alb = new Album();
-				alb.setPkAlbumId(rs.getInt("pk_album_id"));
-				alb.setAlbumName(rs.getString("album_name"));
-				alb.setFkArtistId(rs.getInt("fk_artist_id"));		
-				albumList.add(alb);	
-			}		
+//				Album alb = new Album();
+//				alb.setPkAlbumId(rs.getInt("pk_album_id"));
+//				alb.setAlbumName(rs.getString("album_name"));
+//				alb.setFkArtistId(rs.getInt("fk_artist_id"));		
+//				albumList.add(alb);	
+				
+				//fill the join array up
+				for(int whichCol=0; whichCol<numOfColons; whichCol++) {
+					//System.out.println(rs.getObject(whichCol+1));
+					joinArray[whichRow][whichCol] = rs.getObject(whichCol+1) + "";
+					
+					//System.out.println(joinArray.getClass());
+					//System.out.println(joinArray[whichRow][whichCol]);
+				}
+				whichRow++;
+			}	
+			return joinArray;
+			
 		} catch (SQLException e) {
 			System.err.println("Error message: " + e.getMessage());
 			System.err.println("Error code: " +e.getErrorCode());
 			System.err.println("SQL state: " +e.getSQLState());	
+			return null;
 		}finally {
 			MyJDBCCloser.close(rs, stmt);
 		}
-		return albumList;
+		//System.out.println(joinArray);
+		//return joinArray;
+		//return null;
 	}
 
 }
