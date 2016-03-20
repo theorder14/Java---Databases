@@ -7,7 +7,11 @@ public enum SqlQry {
 			+ " INNER JOIN genre gen ON t.fk_genre_id = gen.pk_genre_id"),
 	JOIN2("SELECT artist_name, album_name FROM album alb"
 			+ " INNER JOIN artist art ON alb.fk_artist_id=pk_artist_id"),
-	CSTMJOIN(" ");
+	ALBUM("SELECT * FROM album"),
+	ARTIST("SELECT * FROM artist"),
+	TRACK("SELECT * FROM track"),
+	GENRE("SELECT * FROM genre"),
+	CSTM(" ");
 	
 	private String qry;
 	

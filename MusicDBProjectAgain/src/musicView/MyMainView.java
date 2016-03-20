@@ -82,7 +82,7 @@ public class MyMainView extends JPanel {
 		navigate = new JMenu("Navigate");
 		menubar.add(navigate);
 		editTables = new JMenuItem("Edit tables");
-		joinTables = new JMenuItem("Join tables!");
+		joinTables = new JMenuItem("Query table data");
 		navigate.add(editTables);
 		navigate.add(joinTables);
 		
@@ -141,7 +141,7 @@ public class MyMainView extends JPanel {
 
 		
 		//Table join view.
-		qryB = new MyCustomButton("Query yourself");
+		qryB = new MyCustomButton("Qu£ry");
 		qryTxtArea = new JTextArea("Add your own query", 5, 20);
 		
 		

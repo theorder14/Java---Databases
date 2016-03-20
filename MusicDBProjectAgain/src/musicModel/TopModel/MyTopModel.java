@@ -23,7 +23,7 @@ public class MyTopModel {
 	
 
 	//TODO write shorter code!
-	public DefaultTableModel fetchTableData(Table table, String searchStr) {
+	public DefaultTableModel fetchTableData(SqlQry table, String searchStr) {
 		
 		//DefaultTableModel dm = new DefaultTableModel();
 		DefaultTableModel dm = new DefaultTableModel() {
@@ -208,14 +208,14 @@ public class MyTopModel {
 					dm.insertRow(r, array[r]);
 				}
 				return dm;
-			case CSTMJOIN:
-				array = GeneralManager.joinTables(sql.CSTMJOIN.getQry(), searchStr);
+			case CSTM:
+				array = GeneralManager.joinTables(sql.CSTM.getQry(), searchStr);
 				numOfRows = array.length;
 				numOfColons = array[0].length;
 				System.out.println("numOFRows in topmodel: " + numOfRows);
 				System.out.println("numOfCols in topmode: " + numOfColons);
 				printTestArray(array);
-				colonTitles = GeneralManager.getColonTitles(sql.CSTMJOIN.getQry());
+				colonTitles = GeneralManager.getColonTitles(sql.CSTM.getQry());
 				
 				//inserting colonTitles
 				addColonTitlesToTable(dm,colonTitles);	

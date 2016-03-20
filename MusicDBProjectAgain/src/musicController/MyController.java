@@ -54,10 +54,10 @@ public class MyController implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent aevt) {
-			SqlQry q = SqlQry.CSTMJOIN;
+			SqlQry q = SqlQry.CSTM;
 			q.setQry(view.getQryTxtArea().getText());
 			JOptionPane.showMessageDialog(null, q.getQry());
-			view.getMainTable().setModel(topModel.fetchSpecificTableData(q.CSTMJOIN, "searchStr"));
+			view.getMainTable().setModel(topModel.fetchSpecificTableData(q.CSTM, "searchStr"));
 			
 		}
 		
@@ -78,11 +78,8 @@ public class MyController implements ActionListener {
 				view.getMainTable().setModel(topModel.fetchSpecificTableData(SqlQry.JOIN2, "searchStr"));
 				view.getQryTxtArea().setText(SqlQry.JOIN2.getQry());
 				//System.out.println("its join2, here its time to call view.getMainTable().setModel(topModel.fetchJoinData(SqlQry.JOIN2, 'searchStr'));");
-			
 			}
-			
 		}
-		
 	}
 	//TODO switch betwen panels!
 	private class MenjuBarListener implements ActionListener {
@@ -120,13 +117,13 @@ public class MyController implements ActionListener {
 			
 			JRadioButton rObj = (JRadioButton) aevt.getSource();
 			if(rObj.getText().equals("Albums")) {
-				view.getMainTable().setModel(topModel.fetchTableData(Table.ALBUM, ""));
+				view.getMainTable().setModel(topModel.fetchTableData(SqlQry.ALBUM, ""));
 			}else if(rObj.getText().equals("Artists")) {
-				view.getMainTable().setModel(topModel.fetchTableData(Table.ARTIST, ""));
+				view.getMainTable().setModel(topModel.fetchTableData(SqlQry.ARTIST, ""));
 			}else if(rObj.getText().equals("Tracks")) {
-				view.getMainTable().setModel(topModel.fetchTableData(Table.TRACK, ""));
+				view.getMainTable().setModel(topModel.fetchTableData(SqlQry.TRACK, ""));
 			}else {
-				view.getMainTable().setModel(topModel.fetchTableData(Table.GENRE, ""));
+				view.getMainTable().setModel(topModel.fetchTableData(SqlQry.GENRE, ""));
 			}
 			//gotta add listener again, after switched model.
 			view.getMainTable().addMouseListener(new TableMouseListener());
@@ -173,9 +170,7 @@ public class MyController implements ActionListener {
 		}	
 	}
 	
-	//TODO atm the only way to get auto update after clicking on delte,update and add button is to call
-	//view.getMainTable().setModel(topModel.fetchTableData(ENUM, "")); , but I will wait a bit
-	//and see if I get something else in my mind, a more general refresher of the table!
+	//TODO auto refresh after CRUD:ing
 	private class CRUDButtonsListener implements ActionListener {
 		
 		@Override
@@ -187,18 +182,22 @@ public class MyController implements ActionListener {
 				
 			//TODO add "addConfirm"-method just as deleteConfirm.
 			if(bObj.getText().equals("ADD")) {
-				if(rObj.getText().equals("Albums")) {
-					addDialog(topModel.addData(Table.ALBUM,
-						getGatheredStuff(view.getTxtFieldsAlb(), view.getTxtFieldsAlb().length)));
-				}else if(rObj.getText().equals("Artists")) {
-					addDialog(topModel.addData(Table.ARTIST,
-						getGatheredStuff(view.getTxtFieldsArt(), view.getTxtFieldsArt().length)));		
-				}else if(rObj.getText().equals("Tracks")) {
-					addDialog(topModel.addData(Table.TRACK,
-						getGatheredStuff(view.getTxtFieldsTrk(), view.getTxtFieldsTrk().length)));	
+				if(addConfirm()) {
+					if(rObj.getText().equals("Albums")) {
+						addDialog(topModel.addData(Table.ALBUM,
+							getGatheredStuff(view.getTxtFieldsAlb(), view.getTxtFieldsAlb().length)));
+					}else if(rObj.getText().equals("Artists")) {
+						addDialog(topModel.addData(Table.ARTIST,
+							getGatheredStuff(view.getTxtFieldsArt(), view.getTxtFieldsArt().length)));		
+					}else if(rObj.getText().equals("Tracks")) {
+						addDialog(topModel.addData(Table.TRACK,
+							getGatheredStuff(view.getTxtFieldsTrk(), view.getTxtFieldsTrk().length)));	
+					}else {
+						addDialog(topModel.addData(Table.GENRE,
+							getGatheredStuff(view.getTxtFieldsGen(), view.getTxtFieldsGen().length)));	
+					}
 				}else {
-					addDialog(topModel.addData(Table.GENRE,
-						getGatheredStuff(view.getTxtFieldsGen(), view.getTxtFieldsGen().length)));	
+					JOptionPane.showMessageDialog(null, "Data was not added");
 				}
 			}else if(bObj.getText().equals("REGENERATE")) {
 				//TODO, no functionality yet, add thisd l8r
@@ -206,18 +205,22 @@ public class MyController implements ActionListener {
 				
 			//TODO add "updateConfirm" method just as deleteConfirm beneath.	
 			}else if(bObj.getText().equals("UPDATE")) {
-				if(rObj.getText().equals("Albums")) {
-					updateDialog(topModel.updateData(Table.ALBUM,
-						getGatheredStuff(view.getTxtFieldsAlb(), view.getTxtFieldsAlb().length)));
-				}else if(rObj.getText().equals("Artists")) {
-					updateDialog(topModel.updateData(Table.ARTIST,
-						getGatheredStuff(view.getTxtFieldsArt(), view.getTxtFieldsArt().length)));		
-				}else if(rObj.getText().equals("Tracks")) {
-					updateDialog(topModel.updateData(Table.TRACK,
-						getGatheredStuff(view.getTxtFieldsTrk(), view.getTxtFieldsTrk().length)));	
+				if(updateConfirm()) {
+					if(rObj.getText().equals("Albums")) {
+						updateDialog(topModel.updateData(Table.ALBUM,
+							getGatheredStuff(view.getTxtFieldsAlb(), view.getTxtFieldsAlb().length)));
+					}else if(rObj.getText().equals("Artists")) {
+						updateDialog(topModel.updateData(Table.ARTIST,
+							getGatheredStuff(view.getTxtFieldsArt(), view.getTxtFieldsArt().length)));		
+					}else if(rObj.getText().equals("Tracks")) {
+						updateDialog(topModel.updateData(Table.TRACK,
+							getGatheredStuff(view.getTxtFieldsTrk(), view.getTxtFieldsTrk().length)));	
+					}else {
+						updateDialog(topModel.updateData(Table.GENRE,
+							getGatheredStuff(view.getTxtFieldsGen(), view.getTxtFieldsGen().length)));	
+					}
 				}else {
-					updateDialog(topModel.updateData(Table.GENRE,
-						getGatheredStuff(view.getTxtFieldsGen(), view.getTxtFieldsGen().length)));	
+					JOptionPane.showMessageDialog(null, "Data was not updated");
 				}
 			}else {//Deletation.
 				if(deleteConfirm()) {
@@ -282,7 +285,32 @@ public class MyController implements ActionListener {
 			if(answer==0) return true;
 			else return false;
 		}
-		
+		private boolean updateConfirm() {
+			Object[] options = {"HELL YEAH", "HELL NO"};
+			int answer = JOptionPane.showOptionDialog(null,
+				"Do you really want to update this data?",
+				"CONFIRM DELETE",
+				JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.WARNING_MESSAGE,
+				null,
+				options,
+				options[1]); //1 of safety reason, lal ;) (if user missclicks data will not be deleted).
+			if(answer==0) return true;
+			else return false;
+		}
+		private boolean addConfirm() {
+			Object[] options = {"HELL YEAH", "HELL NO"};
+			int answer = JOptionPane.showOptionDialog(null,
+				"Do you really want to add this data?",
+				"CONFIRM DELETE",
+				JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.WARNING_MESSAGE,
+				null,
+				options,
+				options[1]); //1 of safety reason, lal ;) (if user missclicks data will not be deleted).
+			if(answer==0) return true;
+			else return false;
+		}
 	}
 	
 	//TODO ***fix: its very similar to RadioButtonListener class, repeated code can be done better! :)
@@ -293,13 +321,13 @@ public class MyController implements ActionListener {
 			JRadioButton rObj = view.getSelectedRb();
 			String searchStr = view.getSearchField().getText();
 			if(rObj.getText().equals("Albums")) {
-				view.getMainTable().setModel(topModel.fetchTableData(Table.ALBUM, searchStr));
+				view.getMainTable().setModel(topModel.fetchTableData(SqlQry.ALBUM, searchStr));
 			}else if(rObj.getText().equals("Artists")) {
-				view.getMainTable().setModel(topModel.fetchTableData(Table.ARTIST, searchStr));
+				view.getMainTable().setModel(topModel.fetchTableData(SqlQry.ARTIST, searchStr));
 			}else if(rObj.getText().equals("Tracks")) {
-				view.getMainTable().setModel(topModel.fetchTableData(Table.TRACK, searchStr));
+				view.getMainTable().setModel(topModel.fetchTableData(SqlQry.TRACK, searchStr));
 			}else {
-				view.getMainTable().setModel(topModel.fetchTableData(Table.GENRE, searchStr));
+				view.getMainTable().setModel(topModel.fetchTableData(SqlQry.GENRE, searchStr));
 			}
 			view.getMainTable().addMouseListener(new TableMouseListener());
 		}
