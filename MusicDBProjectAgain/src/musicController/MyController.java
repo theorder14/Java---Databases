@@ -8,10 +8,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -34,6 +36,8 @@ public class MyController implements ActionListener {
 		view.addCRUDButtonsListener(new CRUDButtonsListener());
 		view.addSearchButtonListener(new SearchButtonListener());
 		view.addMenjuBarListener(new MenjuBarListener());
+		view.addComboBokListener(new ComboBokListener());
+		view.addQryButtonListener(new QryButtonListener());
 		this.topModel = topModel;
 	}
 	
@@ -42,6 +46,43 @@ public class MyController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		//TODO
+		JTextArea tObj = (JTextArea) view.getQryTxtArea();
+		
+	}
+	
+	private class QryButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent aevt) {
+			SqlQry q = SqlQry.CSTMJOIN;
+			q.setQry(view.getQryTxtArea().getText());
+			JOptionPane.showMessageDialog(null, q.getQry());
+			view.getMainTable().setModel(topModel.fetchSpecificTableData(q.CSTMJOIN, "searchStr"));
+			
+		}
+		
+	}
+	
+	private class ComboBokListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent aevt) {
+			//TODO fix joins working with model.
+			
+			JComboBox jObj = (JComboBox) aevt.getSource();
+			if(jObj.getSelectedIndex() == 0) {
+				//System.out.println("its join1, here its time to call view.getMainTable().setModel(topModel.fetchJoinData(SqlQry.JOIN1, 'searchStr'));");
+				view.getMainTable().setModel(topModel.fetchSpecificTableData(SqlQry.JOIN1, "searchStr"));
+				view.getQryTxtArea().setText(SqlQry.JOIN1.getQry());
+			}else if(jObj.getSelectedIndex() == 1) {
+				view.getMainTable().setModel(topModel.fetchSpecificTableData(SqlQry.JOIN2, "searchStr"));
+				view.getQryTxtArea().setText(SqlQry.JOIN2.getQry());
+				//System.out.println("its join2, here its time to call view.getMainTable().setModel(topModel.fetchJoinData(SqlQry.JOIN2, 'searchStr'));");
+			
+			}
+			
+		}
+		
 	}
 	//TODO switch betwen panels!
 	private class MenjuBarListener implements ActionListener {
@@ -50,15 +91,17 @@ public class MyController implements ActionListener {
 		public void actionPerformed(ActionEvent aevt) {
 
 			JMenuItem mObj = (JMenuItem) aevt.getSource();
-			if(mObj.getText().equals("Edit Tables")) {
+			//System.out.println(mObj.getText());
+			if(mObj.getText().equals("Edit tables")) {
 				view.getMainTable().setModel(new DefaultTableModel()); // clear table
 				view.displayEditTablePanels();
-				
+				System.out.println("hehe inne i edit table grejjen");
 			}else {
 				//TODO make GUI for these new joins. Example: let every join-option that
 				//you give the user be a radioButton on the new panel
 				//JOIN TABLES
 				//view.getMainTable().setModel(topModel.fetchJoinData(SqlQry.JOIN1, "searchStr"));
+				System.out.println("hehe inne i join grejjen");
 				view.displayJoinTablePanels();
 				view.getMainTable().setModel(new DefaultTableModel()); // clear table
 
@@ -99,8 +142,9 @@ public class MyController implements ActionListener {
 		
 		private JTable table;
 		private JTextField[] txtFields;
-		JRadioButton rObj;
+		private JRadioButton rObj;
 		public void mouseClicked(MouseEvent mevt) {
+			
 			System.out.println("HEllo you have clicked on the table.");
 			rObj = view.getSelectedRb();
 			table = view.getMainTable();
@@ -141,6 +185,7 @@ public class MyController implements ActionListener {
 			JButton bObj = (JButton) aevt.getSource();
 			JRadioButton rObj = view.getSelectedRb();
 				
+			//TODO add "addConfirm"-method just as deleteConfirm.
 			if(bObj.getText().equals("ADD")) {
 				if(rObj.getText().equals("Albums")) {
 					addDialog(topModel.addData(Table.ALBUM,
@@ -159,7 +204,7 @@ public class MyController implements ActionListener {
 				//TODO, no functionality yet, add thisd l8r
 				
 				
-				
+			//TODO add "updateConfirm" method just as deleteConfirm beneath.	
 			}else if(bObj.getText().equals("UPDATE")) {
 				if(rObj.getText().equals("Albums")) {
 					updateDialog(topModel.updateData(Table.ALBUM,

@@ -5,6 +5,8 @@ import musicModel.TopModel.MyTopModel;
 import musicView.MyMainView;
 
 
+
+
 public class MyMain extends JFrame{
 
 	public static void main(String[] args) {

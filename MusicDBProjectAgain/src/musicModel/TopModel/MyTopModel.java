@@ -67,7 +67,7 @@ public class MyTopModel {
 				return dm;
 			case TRACK:
 				List<Track> trkList= TrackManager.searchTracks(searchStr);
-				colonTitles = GeneralManager.getColonTitles("SELECT * FROM genre"); 
+				colonTitles = GeneralManager.getColonTitles("SELECT * FROM track"); 
 				addColonTitlesToTable(dm,colonTitles);
 				rowData = new Object[7];
 				System.out.println(rowData.length);
@@ -160,7 +160,7 @@ public class MyTopModel {
 	}
 
 	//TODO this one shall hopefully use GeneralManager, the general of them all, YARR! :)
-	public DefaultTableModel fetchJoinData(SqlQry sql, String searchStr) {
+	public DefaultTableModel fetchSpecificTableData(SqlQry sql, String searchStr) {
 		
 		//DefaultTableModel dm = new DefaultTableModel();
 		DefaultTableModel dm = new DefaultTableModel() {
@@ -171,13 +171,14 @@ public class MyTopModel {
 		    }
 		};
 		String[] colonTitles = null;
-//		Object[] rowData = null;
-		
+		Object[][] array = null;
+		int numOfRows, numOfColons;
+		//TODO add more default joins. :O
 		switch(sql) {
 			case JOIN1:
-				Object[][] array = GeneralManager.joinTables(sql.JOIN1.getQry(), searchStr);
-				int numOfRows = array.length;
-				int numOfColons = array[0].length;
+				array = GeneralManager.joinTables(sql.JOIN1.getQry(), searchStr);
+				numOfRows = array.length;
+				numOfColons = array[0].length;
 				System.out.println("numOFRows in topmodel: " + numOfRows);
 				System.out.println("numOfCols in topmode: " + numOfColons);
 				printTestArray(array);
@@ -191,26 +192,38 @@ public class MyTopModel {
 					dm.insertRow(r, array[r]);
 				}
 				return dm;
+			case JOIN2:
+				array = GeneralManager.joinTables(sql.JOIN2.getQry(), searchStr);
+				numOfRows = array.length;
+				numOfColons = array[0].length;
+				System.out.println("numOFRows in topmodel: " + numOfRows);
+				System.out.println("numOfCols in topmode: " + numOfColons);
+				printTestArray(array);
+				colonTitles = GeneralManager.getColonTitles(sql.JOIN2.getQry());
 				
+				//inserting colonTitles
+				addColonTitlesToTable(dm,colonTitles);	
+				//inserting rows.
+				for(int r=0; r<numOfRows; r++) {
+					dm.insertRow(r, array[r]);
+				}
+				return dm;
+			case CSTMJOIN:
+				array = GeneralManager.joinTables(sql.CSTMJOIN.getQry(), searchStr);
+				numOfRows = array.length;
+				numOfColons = array[0].length;
+				System.out.println("numOFRows in topmodel: " + numOfRows);
+				System.out.println("numOfCols in topmode: " + numOfColons);
+				printTestArray(array);
+				colonTitles = GeneralManager.getColonTitles(sql.CSTMJOIN.getQry());
 				
-//				print out colonTitles test.
-//				for(int i=0; i<colonTitles.length; i++)
-//					System.out.println(colonTitles[i]);
-
-
-				//List<Album> albList = AlbumManager.searchAlbums(searchStr);
-				
-//				addColonTitlesToTable(dm,colonTitles);
-//				colonTitles = GeneralManager.getColonTitles(sql.JOIN1.getQry());
-//				rowData = new Object[3];
-//				System.out.println(rowData.length);
-//				for(int i=0; i<albList.size(); i++) {
-//					rowData[0] = albList.get(i).getPkAlbumId();
-//					rowData[1] = albList.get(i).getAlbumName();
-//					rowData[2] = albList.get(i).getFkArtistId();
-//					dm.insertRow(i, rowData);
-//				}
-				//return dm;
+				//inserting colonTitles
+				addColonTitlesToTable(dm,colonTitles);	
+				//inserting rows.
+				for(int r=0; r<numOfRows; r++) {
+					dm.insertRow(r, array[r]);
+				}
+				return dm;	
 		}
 		
 		return null;

@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -19,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -49,6 +51,11 @@ public class MyMainView extends JPanel {
 	private JMenu navigate;
 	private JMenuItem joinTables, editTables;
 	private JLabel rbLabel;
+	
+	private JComboBox cb;
+	
+	private MyCustomButton qryB;
+	private JTextArea qryTxtArea;
 	
 	
 	
@@ -85,7 +92,7 @@ public class MyMainView extends JPanel {
 		
 	}
 	private void makeCenterPanel() {
-		cPanel = new JPanel();	
+		cPanel = new JPanel(new BorderLayout());	
 		JScrollPane cPanelScrollPane = new JScrollPane(cPanel);
 		
 		
@@ -101,7 +108,7 @@ public class MyMainView extends JPanel {
 		mainTable = new JTable(rowData, colonTitles);
 		mainTable.setFillsViewportHeight(true);
 		mainScrollPane = new JScrollPane(mainTable);
-		cPanel.add(mainScrollPane);
+		cPanel.add(mainScrollPane, BorderLayout.CENTER);
 	
 //		add(cPanel, BorderLayout.CENTER);
 		add(cPanelScrollPane, BorderLayout.CENTER);
@@ -126,10 +133,17 @@ public class MyMainView extends JPanel {
 	private void makeSouthPanel() {
 		sPanel = new JPanel(new GridLayout(1,2));
 
+		//Edit table view.
 		searchB = new MyCustomButton("Search by name");
 		searchField = new MyCustomTxtField("");
 		sPanel.add(searchB);
 		sPanel.add(searchField);
+
+		
+		//Table join view.
+		qryB = new MyCustomButton("Query yourself");
+		qryTxtArea = new JTextArea("Add your own query", 5, 20);
+		
 		
 		add(sPanel, BorderLayout.SOUTH);
 	}
@@ -249,10 +263,9 @@ public class MyMainView extends JPanel {
 		wPanel = new JPanel();
 		wPanel.setLayout(new BoxLayout(wPanel,BoxLayout.Y_AXIS));
 
+		//Edit Table view.
 		rbLabel = new JLabel("Tables:");
-//		JLabel fillLabel1 = new JLabel("   ");
 		wPanel.add(rbLabel);
-//		wPanel.add(fillLabel1);
 		
 		rbs = new JRadioButton[4];
 		rbs[0] = new JRadioButton("Albums");
@@ -265,6 +278,9 @@ public class MyMainView extends JPanel {
 			btnGrp.add(rbs[i]);
 			wPanel.add(rbs[i]);
 		}	
+		
+		//Join table view.
+		cb = new JComboBox(new String[]{"JOIN1", "JOIN2"});
 		
 		
 		add(wPanel, BorderLayout.WEST);
@@ -293,6 +309,15 @@ public class MyMainView extends JPanel {
 		editTables.addActionListener(actionListen);
 		joinTables.addActionListener(actionListen);
 	}
+	
+	public void addComboBokListener(ActionListener actionListen) {
+		cb.addActionListener(actionListen);
+	}
+	
+	public void addQryButtonListener(ActionListener actionListen) {
+		qryB.addActionListener(actionListen);
+	}
+	
 	public JTable getMainTable() {
 		return mainTable;
 	}
@@ -357,6 +382,14 @@ public class MyMainView extends JPanel {
 		return searchB;
 	}
 	
+	public JComboBox getComboBox() {
+		return cb;
+	}
+	
+	public JTextArea getQryTxtArea() {
+		return qryTxtArea;
+	}
+	
 	public void refreshView() {
 		this.revalidate();
 		this.repaint();
@@ -364,43 +397,50 @@ public class MyMainView extends JPanel {
 	//TODO , hmm it wont respond as I want it to.
 	public void displayEditTablePanels() {
 		//cPanel.removeAll();
-		//ePanel.removeAll();
-		//wPanel.removeAll();
-		//nPanel.removeAll();
-		//sPanel.removeAll();
-		
-		
+		ePanel.removeAll();
+		wPanel.removeAll();
+		nPanel.removeAll();
+		sPanel.removeAll();
+
 		
 		//north 
 		for(int i=0;i<crudBtns.length;i++) 
 			nPanel.add(crudBtns[i]);
-		revalidate();
-		repaint();
+
 		//south
 		sPanel.add(searchB);
 		sPanel.add(searchField);
 		
 		
 		//west
+		wPanel.setLayout(new BoxLayout(wPanel, BoxLayout.Y_AXIS ));
 		for(int i=0; i<rbs.length; i++) {
 			wPanel.add(rbs[i]);
 		}	
 		
 
-		
+		revalidate();
+		repaint();
 	}
 	
 	//TODO , hmm it wont respond as I want it to.
 	public void displayJoinTablePanels() {
-		cPanel.removeAll();
+//		cPanel.removeAll();
 		ePanel.removeAll();
 		wPanel.removeAll();
 		nPanel.removeAll();
 		sPanel.removeAll();
-		parentFrame.revalidate();
-		parentFrame.repaint();
 		
+		//west
+		wPanel.setLayout(new FlowLayout());
+		wPanel.add(cb);
 		
+		//south
+		sPanel.add(qryTxtArea);
+		sPanel.add(qryB);
+		
+		revalidate();
+		repaint();	
 	}
 	
 	private class MyCustomTxtField extends JTextField {
