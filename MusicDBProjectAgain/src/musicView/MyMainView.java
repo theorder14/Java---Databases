@@ -1,5 +1,5 @@
 package musicView;
-
+,
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -141,7 +141,7 @@ public class MyMainView extends JPanel {
 
 		
 		//Table join view.
-		qryB = new MyCustomButton("Qu£ry");
+		qryB = new MyCustomButton("QuÂ£ry");
 		qryTxtArea = new JTextArea("Add your own query", 5, 20);
 		
 		
