@@ -49,6 +49,6 @@ public class Album implements Serializable {
     }
     
     public String toString() {
-    	return pkAlbumId + ", " + albumName + ", " + fkArtistId;
+    	return pkAlbumIda + ", " + albumName + ", " + fkArtistId;
     }
 }
