@@ -1,5 +1,5 @@
 # MusicDBProject<br>
-AUTHORS: Didrik Lind & Thai Pham<br>
+AUTHORS: Thai Pham<br>
 
 PROJECT:<br>
 Java, JDBC, MySQL<br>
